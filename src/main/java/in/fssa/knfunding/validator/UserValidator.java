@@ -1,9 +1,15 @@
 package in.fssa.knfunding.validator;
 
 import exception.ValidationException;
+import in.fssa.knfunding.dao.UserDAO;
 import in.fssa.knfunding.model.User;
 
 public class UserValidator {
+	/**
+	 * 
+	 * @param user
+	 * @throws ValidationException
+	 */
 	public static void Validate(User user) throws ValidationException{
     	if(user == null) {
     		throw new ValidationException("Invalid User Input");
@@ -21,6 +27,13 @@ public class UserValidator {
     	
 
     }
+	
+	/**
+	 * 
+	 * @param user
+	 * @param id
+	 * @throws ValidationException
+	 */
 
 	public static void ValidateUpdate(User user, int id) throws ValidationException {
 		if(user == null) {
@@ -39,6 +52,12 @@ public class UserValidator {
     		throw new ValidationException("Name can't be null or empty");
     	}
 		
+    	UserDAO userDao = new UserDAO();
+    	User val = userDao.findById(id);
+    	if(val == null) {
+    		throw new ValidationException("Invalid UserId");
+    	}
+    	
 	}
 	
 }

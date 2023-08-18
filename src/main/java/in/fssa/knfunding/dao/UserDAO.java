@@ -9,7 +9,12 @@ import interfaces.UserInterface;
 import in.fssa.knfunding.util.*;
 
 public class UserDAO implements UserInterface {
-
+	/**
+     * Retrieves all active users from the database.
+     *
+     * @return A set of active User objects.
+     * @throws RuntimeException If an error occurs while fetching users.
+     */
     public Set<User> findAll() {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -17,7 +22,7 @@ public class UserDAO implements UserInterface {
         ResultSet rs = null;
 
         try {
-            String query = "SELECT * FROM users WHERE is_active = 1";
+            String query = "SELECT * FROM user WHERE is_active = 1";
             conn = ConnectionUtil.getConnection();
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
@@ -43,6 +48,13 @@ public class UserDAO implements UserInterface {
     }
     
     @Override 
+    
+    /**
+     * Creates a new user in the database.
+     *
+     * @param newUser The User object representing the new user to be created.
+     * @throws RuntimeException If an error occurs while creating the user.
+     */
 
     public void create(User newUser) {
         Connection conn = null;
@@ -69,6 +81,13 @@ public class UserDAO implements UserInterface {
     }
 
 	@Override
+	
+	/**
+     * Deactivates a user with the given ID.
+     *
+     * @param id The ID of the user to be deactivated.
+     * @throws RuntimeException If an error occurs while deactivating the user.
+     */
 	
 	public void delete(int id) {
 	    Connection conn = null;
@@ -98,6 +117,15 @@ public class UserDAO implements UserInterface {
 
 
 	@Override
+	
+	/**
+     * Updates an existing user's information in the database.
+     *
+     * @param id          The ID of the user to be updated.
+     * @param updatedUser The updated User object.
+     * @throws RuntimeException If an error occurs while updating the user.
+     */
+	
 	public void update(int id, User updatedUser) {
 	    Connection conn = null;
 	    PreparedStatement ps = null;
@@ -130,18 +158,71 @@ public class UserDAO implements UserInterface {
 
 
 	@Override
+	
+	/**
+     * Retrieves a user by their ID.
+     *
+     * @param id The ID of the user to retrieve.
+     * @return The User object representing the retrieved user, or null if not found.
+     * @throws RuntimeException If an error occurs while finding the user by ID.
+     */
 	public User findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	    Connection conn = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+	    User user = null;
+
+	    try {
+	        conn = ConnectionUtil.getConnection();
+	        String query = "SELECT * FROM user WHERE id = ?";
+	        ps = conn.prepareStatement(query);
+	        ps.setInt(1, id);
+	        rs = ps.executeQuery();
+
+	        if (rs.next()) {
+	            user = new User();
+	            user.setId(rs.getInt("id"));
+	            user.setFullName(rs.getString("full_name"));
+	            user.setEmail(rs.getString("email"));
+	            user.setPassword(rs.getString("password"));
+	            user.setPhoneNumber(rs.getLong("phone_number"));
+	            user.setActive(rs.getBoolean("is_active"));
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        throw new RuntimeException("Error while finding user by ID", e);
+	    } finally {
+	        ConnectionUtil.close(conn, ps, rs);
+	    }
+
+	    return user;
 	}
 
+
 	@Override
+	
+	 /**
+     * Retrieves a user by their email.
+     *
+     * @param email The email of the user to retrieve.
+     * @return The User object representing the retrieved user, or null if not found.
+     * @throws RuntimeException If an error occurs while finding the user by email.
+     */
+	
 	public User findByEmail(String email) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+
 
 	@Override
+	
+	/**
+     * Retrieves the count of users in the database.
+     *
+     * @return The total number of users.
+     */
 	public int count() {
 		// TODO Auto-generated method stub
 		return 0;

@@ -1,6 +1,8 @@
 package in.fssa.knfunding.model;
 
 public class RequestEntity {
+	
+	
     private int id;
     private String name;
     private String description;

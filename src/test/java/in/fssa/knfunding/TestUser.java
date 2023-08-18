@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import in.fssa.knfunding.model.User;
 import in.fssa.knfunding.service.UserService;
 
-public class TestCreateUser {
+public class TestUser {
 	@Test
 	public void testCreateUserWithValidataInput() {
 		UserService userService = new UserService();
@@ -193,7 +193,7 @@ public class TestCreateUser {
 	public void testUpdateUserWithInvalidId() {
 	    UserService userservice = new UserService();
 
-	    Exception exception = assertThrows(RuntimeException.class, () -> {
+	    Exception exception = assertThrows(Exception.class, () -> {
 	        User newUser = new User();
 	        newUser.setFullName("karthikeyan");
 	        newUser.setEmail("karthikn@354@gmail.com");

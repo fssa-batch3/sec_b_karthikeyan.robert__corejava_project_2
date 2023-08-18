@@ -12,7 +12,10 @@ import in.fssa.knfunding.util.ConnectionUtil;
 
 public class RequestDAO {
 
-	
+	/**
+	 * 
+	 * @param newRequest
+	 */
 	
     public void create(Request newRequest) {
         Connection conn = null;
@@ -41,7 +44,11 @@ public class RequestDAO {
 
     
     
-    
+    /**
+     * 
+     * @param id
+     * @param updatedRequest
+     */
     
     public void update(int id, Request updatedRequest) {
         Connection conn = null;
@@ -76,7 +83,10 @@ public class RequestDAO {
     }
 
     
-    
+    /**
+     * 
+     * @param id
+     */
     
     public void delete(int id) {
         Connection conn = null;
@@ -106,7 +116,10 @@ public class RequestDAO {
     }
 
     
-    
+    /**
+     * 
+     * @return
+     */
     
 
     public Set<Request> findAll() {
@@ -142,7 +155,11 @@ public class RequestDAO {
     }
 
 
-
+/**
+ * 
+ * @param categoryId
+ * @return
+ */
 
 
 	public Set<Request> findByCategoryId(int categoryId) {
@@ -152,7 +169,10 @@ public class RequestDAO {
 
 
 
-
+/**
+ * @param requestId
+ * @return
+ */
 
 	public Request findById(int requestId) {
 		// TODO Auto-generated method stub

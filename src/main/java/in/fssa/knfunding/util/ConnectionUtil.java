@@ -7,7 +7,6 @@ public class ConnectionUtil {
 
 
 
-
 		public static Connection getConnection() {
 			
 			Dotenv env = Dotenv.load();
@@ -47,6 +46,8 @@ public class ConnectionUtil {
 			}
 
 		}
+		
+		
 
 		public static void close(Connection connection, PreparedStatement presta, ResultSet rs) {
 			try {

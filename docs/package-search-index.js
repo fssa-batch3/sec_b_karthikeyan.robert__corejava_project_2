@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"exception"},{"l":"in.fssa.knfunding.dao"},{"l":"in.fssa.knfunding.model"},{"l":"in.fssa.knfunding.service"},{"l":"in.fssa.knfunding.util"},{"l":"in.fssa.knfunding.validator"},{"l":"interfaces"}];updateSearchResults();
