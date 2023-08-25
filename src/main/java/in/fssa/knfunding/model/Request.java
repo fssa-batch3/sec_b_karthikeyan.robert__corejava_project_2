@@ -2,10 +2,10 @@ package in.fssa.knfunding.model;
 
 public class Request  {
     private int id;
-    private String name;
     private String description;
     private int categoryId;
     private int amount;
+    private String title;
     
     
     public int getId() {
@@ -13,12 +13,6 @@ public class Request  {
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
 	}
 	public String getDescription() {
 		return description;
@@ -38,10 +32,15 @@ public class Request  {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-	public int getCategory_id() {
-		// TODO Auto-generated method stub
-		return 0;
+	
+	public String getTitle() {
+		return title;
 	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	
 	
     
     

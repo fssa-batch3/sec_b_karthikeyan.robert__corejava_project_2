@@ -43,26 +43,15 @@ public class RequestService {
             throw new RuntimeException("Error while retrieving requests by category", e);
         }
     }
-    /**
-     * 
-     * @param requestId
-     * @return
-     */
 
-    public Request getRequestById(int requestId) {
-        try {
-            return requestDAO.findById(requestId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Error while retrieving request by ID", e);
-        }
+
+    public RequestService(RequestDAO requestDAO) {
+        this.requestDAO = requestDAO;
     }
-    
-    /**
-     * 
-     * @param request
-     */
+
     public void createRequest(Request request) {
+        validateRequest(request);
+
         try {
             requestDAO.create(request);
         } catch (Exception e) {
@@ -71,12 +60,27 @@ public class RequestService {
         }
     }
 
-    	/**
-    	 * 
-    	 * @param requestId
-    	 * @param updatedRequest
-    	 */
+    private void validateRequest(Request request) {
+        if (request.getTitle() == null || request.getTitle().trim().isEmpty()) {
+            throw new IllegalArgumentException("Title cannot be null or empty");
+        }
+        
+        if (request.getDescription() == null || request.getDescription().trim().isEmpty()) {
+            throw new IllegalArgumentException("Description cannot be null or empty");
+        }
+        
+        if (request.getAmount() <= 0) {
+            throw new IllegalArgumentException("Amount must be a positive value");
+        }
+        
+        if (request.getCategoryId() <= 0) {
+            throw new IllegalArgumentException("Invalid category ID");
+        }
+    }
+    
     public void updateRequest(int requestId, Request updatedRequest) {
+        validateRequest(updatedRequest);
+
         try {
             requestDAO.update(requestId, updatedRequest);
         } catch (Exception e) {
@@ -85,12 +89,16 @@ public class RequestService {
         }
     }
 
-    
     /**
      * 
      * @param requestId
      */
     public void deleteRequest(int requestId) {
+        Request existingRequest = requestDAO.findById(requestId);
+        if (existingRequest == null) {
+            throw new RuntimeException("Request not found.");
+        }
+
         try {
             requestDAO.delete(requestId);
         } catch (Exception e) {
@@ -98,4 +106,21 @@ public class RequestService {
             throw new RuntimeException("Error while deleting request", e);
         }
     }
+
+   
+    /**
+     * 
+     * @param requestId
+     * @return
+     */
+	
+    public Request findById(int requestId) {
+        try {
+            return requestDAO.findById(requestId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error while retrieving request by ID", e);
+        }
+    }
+
 }

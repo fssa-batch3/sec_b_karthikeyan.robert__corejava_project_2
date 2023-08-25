@@ -47,6 +47,7 @@ public class TestUser {
 		newUser.setFullName("karthikeyan");
 		newUser.setEmail("");
 		newUser.setPassword("Sollamattan");
+		newUser.setPhoneNumber(7010847986l);
 		newUser.setActive(true);
 
 		Exception exception = assertThrows(Exception.class, () -> {
@@ -67,6 +68,7 @@ public class TestUser {
 		newUser.setFullName("karthikeyan");
 		newUser.setEmail("");
 		newUser.setPassword("Sollamattan");
+		newUser.setPhoneNumber(7010847986l);
 		newUser.setActive(true);
 
 		Exception exception = assertThrows(Exception.class, () -> {
@@ -86,6 +88,7 @@ public class TestUser {
 		newUser1.setId(10);
 		newUser1.setFullName("karthikeyan");
 		newUser1.setEmail("karthikn352004@gmail.com");
+		newUser1.setPhoneNumber(7010847986l);
 		newUser1.setPassword(null);
 		newUser1.setActive(true);
 
@@ -105,6 +108,7 @@ public class TestUser {
 		newUser1.setId(10);
 		newUser1.setFullName("karthikeyan");
 		newUser1.setEmail("karthikn352004@gmail.com");
+		newUser1.setPhoneNumber(7010847986l);
 		newUser1.setPassword(" ");
 		newUser1.setActive(true);
 
@@ -124,6 +128,7 @@ public class TestUser {
 		newUser1.setFullName(null);
 		newUser1.setEmail("karthikn352004@gmail.com");
 		newUser1.setPassword("sollamattan");
+		newUser1.setPhoneNumber(7010847986l);
 
 		Exception exception = assertThrows(Exception.class, () -> {
 			userService.create(newUser1);
@@ -142,6 +147,7 @@ public class TestUser {
 		newUser1.setFullName("  ");
 		newUser1.setEmail("karthikn352004@gmail.com");
 		newUser1.setPassword("sollamattan");
+		newUser1.setPhoneNumber(7010847986l);
 		newUser1.setActive(true);
 
 		Exception exception = assertThrows(Exception.class, () -> {

@@ -9,9 +9,9 @@ public class RequestValidator {
 	 * @return
 	 */
     public static boolean validate(Request request) {
-        return isValidName(request.getName()) &&
+        return isValidTitle(request.getTitle()) &&
                isValidDescription(request.getDescription()) &&
-               isValidCategoryId(request.getCategory_id()) &&
+               isValidCategoryId(request.getCategoryId()) &&
                isValidAmount(request.getAmount());
     }
 /**
@@ -19,8 +19,8 @@ public class RequestValidator {
  * @param name
  * @return
  */
-    private static boolean isValidName(String name) {
-        return name != null && !name.isEmpty();
+    private static boolean isValidTitle(String title) {
+        return title != null && !title.isEmpty();
     }
 /**
  * 

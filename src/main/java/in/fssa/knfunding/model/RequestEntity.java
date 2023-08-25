@@ -4,7 +4,7 @@ public class RequestEntity {
 	
 	
     private int id;
-    private String name;
+    private String title;
     private String description;
     private int category_id;
     private int amount;
@@ -12,9 +12,9 @@ public class RequestEntity {
     public RequestEntity() {
     }
 
-    public RequestEntity(int id, String name, String description, int category_id, int amount) {
+    public RequestEntity(int id, String title, String description, int category_id, int amount) {
         this.id = id;
-        this.name = name;
+        this.title = title;
         this.description = description;
         this.category_id = category_id;
         this.amount = amount;
@@ -28,12 +28,12 @@ public class RequestEntity {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -64,7 +64,7 @@ public class RequestEntity {
     public String toString() {
         return "Request{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", category_id=" + category_id +
                 ", amount=" + amount +
