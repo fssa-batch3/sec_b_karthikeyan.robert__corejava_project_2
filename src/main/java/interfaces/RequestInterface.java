@@ -1,11 +1,12 @@
 package interfaces;
 
 import in.fssa.knfunding.model.Request;
-import java.util.Set;
+
+import java.util.List;
 
 public interface RequestInterface {
 
-    Set<Request> findAll();
+    List<Request> findAll();
 
     Request findById(int id);
 

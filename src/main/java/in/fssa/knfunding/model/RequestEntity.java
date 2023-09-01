@@ -8,19 +8,30 @@ public class RequestEntity {
     private String description;
     private int category_id;
     private int amount;
+    private boolean isActive;
+    
 
     public RequestEntity() {
     }
 
-    public RequestEntity(int id, String title, String description, int category_id, int amount) {
+    public RequestEntity(int id, String title, String description, int category_id, int amount, boolean isActive) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.category_id = category_id;
         this.amount = amount;
+        this.isActive = isActive;
     }
 
-    public int getId() {
+    public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public int getId() {
         return id;
     }
 
@@ -62,12 +73,13 @@ public class RequestEntity {
 
     @Override
     public String toString() {
-        return "Request{" +
+        return "RequestEntity{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", category_id=" + category_id +
                 ", amount=" + amount +
+                ", isActive=" + isActive +
                 '}';
     }
 }

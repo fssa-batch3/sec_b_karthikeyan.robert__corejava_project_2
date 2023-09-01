@@ -2,7 +2,7 @@ package in.fssa.knfunding;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Set;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -289,7 +289,7 @@ public class TestRequest {
         RequestService requestService = new RequestService();
  
         assertDoesNotThrow(() -> {
-        	 Set<Request> allRequests = requestService.getAllRequests();
+        	 List<Request> allRequests = requestService.getAllRequests();
         });
 
     }
@@ -302,7 +302,7 @@ public class TestRequest {
 
   
         assertDoesNotThrow(() -> {
-        	Set<Request> requestsWithCategoryId1 = requestService.getRequestsByCategoryId(1);
+        	List<Request> requestsWithCategoryId1 = requestService.getRequestsByCategoryId(1);
        });
 
     }

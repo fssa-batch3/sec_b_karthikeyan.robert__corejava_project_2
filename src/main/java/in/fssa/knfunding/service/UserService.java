@@ -1,7 +1,8 @@
 package in.fssa.knfunding.service;
 
 import java.util.Iterator;
-import java.util.Set;
+
+import java.util.List;
 
 import exception.ValidationException;
 import in.fssa.knfunding.dao.UserDAO;
@@ -14,9 +15,9 @@ public class UserService {
 	 * @return
 	 */
 
-	public Set<User> getAll() {
+	public List<User> getAll() {
 		UserDAO userDao = new UserDAO();
-		Set<User> userList = userDao.findAll();
+		List<User> userList = userDao.findAll();
 		Iterator<User> iterator = userList.iterator();
 
 		while (iterator.hasNext()) {
@@ -37,19 +38,7 @@ public class UserService {
 		UserValidator.Validate(newUser);
 		userDao.create(newUser);
 	}
-	/**
-	 * 
-	 * @param id
-	 * @param newUpdate
-	 * @throws ValidationException
-	 */
-
-	public void update(int id, User newUpdate) throws ValidationException {
-		UserDAO userDAO = new UserDAO();
-		UserValidator.ValidateUpdate(newUpdate, id);
-		userDAO.update(id, newUpdate);
-		
-	}
+	
 	/**
 	 * 
 	 * @param id
@@ -59,7 +48,6 @@ public class UserService {
 		UserDAO userDao = new UserDAO();
 		userDao.delete(id);
 	}
-	
 	/**
 	 * 
 	 * @param newId
@@ -81,4 +69,22 @@ public class UserService {
 		UserDAO userDao = new UserDAO();
 		return userDao.findByEmail(Email);
 	}
+	/**
+	 * 
+	 * @param user
+	 * @throws ValidationException
+	 */
+	
+	
+	public void update(User user) throws ValidationException {
+	    UserDAO userDAO = new UserDAO();
+	    
+	    int userId = user.getId(); 
+	    
+	    UserValidator.ValidateUpdate(user, userId);
+	    
+	    userDAO.update(userId, user);
+	}
+
+	
 }

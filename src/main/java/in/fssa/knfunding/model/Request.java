@@ -6,9 +6,16 @@ public class Request  {
     private int categoryId;
     private int amount;
     private String title;
+    private boolean isActive;
     
     
-    public int getId() {
+    public boolean isActive() {
+		return isActive;
+	}
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
@@ -29,8 +36,8 @@ public class Request  {
 	public int getAmount() {
 		return amount;
 	}
-	public void setAmount(int amount) {
-		this.amount = amount;
+	public void setAmount(double amount2) {
+		this.amount = (int) amount2;
 	}
 	
 	public String getTitle() {
@@ -39,6 +46,14 @@ public class Request  {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
+	public int getUserId() {
+		return getUserId();
+	}
+	public int setUserId(int userId) {
+		return userId;
+	}
+
 	
 	
 	

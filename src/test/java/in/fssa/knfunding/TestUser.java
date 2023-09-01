@@ -169,7 +169,7 @@ public class TestUser {
 		user.setPhoneNumber(7010847986L);
 
 		assertDoesNotThrow(() -> {
-			userservice.update(4, user);
+			userservice.update(user);
 		});
 	}
 
@@ -186,7 +186,7 @@ public class TestUser {
             newUser.setPassword("KN@354");
             newUser.setPhoneNumber(7010847986L);
 
-            userService.update(0, newUser); 
+            userService.update(newUser); 
         });
 
         String expectedMessage = "Invalid UserId";
@@ -206,7 +206,7 @@ public class TestUser {
 	        newUser.setPassword("KN@354");
 	        newUser.setPhoneNumber(7010847986L);
 
-	        userservice.update(19, newUser); // Using an invalid ID here
+	        userservice.update(newUser); // Using an invalid ID here
 	    });
 
 	    String expectedMessage = "Invalid UserId";

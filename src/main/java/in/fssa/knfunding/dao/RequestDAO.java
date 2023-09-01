@@ -1,12 +1,13 @@
 package in.fssa.knfunding.dao;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
-
+import java.util.ArrayList;
+import java.util.List;
+import exception.ValidationException;
 import in.fssa.knfunding.model.Request;
 import in.fssa.knfunding.util.ConnectionUtil;
 
@@ -16,31 +17,34 @@ public class RequestDAO {
 	 * 
 	 * @param newRequest
 	 */
+	 
 	
-    public void create(Request newRequest) {
-        Connection conn = null;
-        PreparedStatement ps = null;
+	public void create(Request newRequest) {
+	    Connection conn = null;
+	    PreparedStatement ps = null;
 
-        try {
-            String query = "INSERT INTO requests (title, description, category_id, amount) VALUES (?, ?, ?, ?)";
-            conn = ConnectionUtil.getConnection();
-            ps = conn.prepareStatement(query);
-            ps.setString(1, newRequest.getTitle());
-            ps.setString(2, newRequest.getDescription());
-            ps.setInt(3, newRequest.getCategoryId());
-            ps.setInt(4, newRequest.getAmount());
-            ps.executeUpdate();
+	    try {
+	        String query = "INSERT INTO requests (title, description, category_id, amount) VALUES (?, ?, ?, ?)";
+	        conn = ConnectionUtil.getConnection();
+	        ps = conn.prepareStatement(query);
+	        ps.setString(1, newRequest.getTitle());
+	        ps.setString(2, newRequest.getDescription());
+	        ps.setInt(3, newRequest.getCategoryId());
+	        ps.setInt(4, newRequest.getAmount());
+	       
+	        ps.executeUpdate();
 
-            System.out.println("Request has been created successfully");
+	        System.out.println("Request has been created successfully");
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Error while creating request: " + e.getMessage());
-            throw new RuntimeException();
-        } finally {
-            ConnectionUtil.close(conn, ps);
-        }
-    }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        System.out.println("Error while creating request: " + e.getMessage());
+	        throw new RuntimeException();
+	    } finally {
+	        ConnectionUtil.close(conn, ps);
+	    }
+	}
+
 
     
     
@@ -50,37 +54,41 @@ public class RequestDAO {
      * @param updatedRequest
      */
     
-    public void update(int id, Request updatedRequest) {
-        Connection conn = null;
-        PreparedStatement ps = null;
+	public void update(int requestId, Request updatedRequest) throws ValidationException {
+	    update(requestId, updatedRequest.getTitle(), updatedRequest.getDescription(),
+	           updatedRequest.getCategoryId(), updatedRequest.getAmount());
+	}
 
-        try {
-            String query = "UPDATE requests SET title=?, description=?, category_id=?, amount=? WHERE id=?";
-            conn = ConnectionUtil.getConnection();
-            ps = conn.prepareStatement(query);
+	public void update(int requestId, String title, String description, int categoryId, int amount) throws ValidationException {
+	    Connection conn = null;
+	    PreparedStatement ps = null;
 
-            ps.setString(1, updatedRequest.getTitle());
-            ps.setString(2, updatedRequest.getDescription());
-            ps.setInt(3, updatedRequest.getCategoryId());
-            ps.setInt(4, updatedRequest.getAmount());
-            ps.setInt(5, id);
+	    try {
+	        String query = "UPDATE requests SET title = ?, description = ?, category_id = ?, amount = ? WHERE id = ?";
+	        conn = ConnectionUtil.getConnection();
+	        ps = conn.prepareStatement(query);
+	        ps.setString(1, title);
+	        ps.setString(2, description);
+	        ps.setInt(3, categoryId);
+	        ps.setInt(4, amount);
+	        ps.setInt(5, requestId);
 
-            int rowsUpdated = ps.executeUpdate();
+	        int rowsAffected = ps.executeUpdate();
 
-            if (rowsUpdated > 0) {
-                System.out.println("Request with ID " + id + " has been updated successfully.");
-            } else {
-                System.out.println("Request with ID " + id + " not found.");
-            }
+	        if (rowsAffected == 0) {
+	            throw new ValidationException("No request found with id: " + requestId);
+	        }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Error while updating request: " + e.getMessage());
-            throw new RuntimeException();
-        } finally {
-            ConnectionUtil.close(conn, ps);
-        }
-    }
+	        System.out.println("Request has been updated successfully");
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        System.out.println("Error while updating request: " + e.getMessage());
+	        throw new RuntimeException();
+	    } finally {
+	        ConnectionUtil.close(conn, ps);
+	    }
+	}
 
     
     /**
@@ -88,32 +96,33 @@ public class RequestDAO {
      * @param id
      */
     
-    public void delete(int id) {
-        Connection conn = null;
-        PreparedStatement ps = null;
+	public void delete(int requestId) {
+	    Connection conn = null;
+	    PreparedStatement ps = null;
 
-        try {
-            String query = "DELETE FROM requests WHERE id=?";
-            conn = ConnectionUtil.getConnection();
-            ps = conn.prepareStatement(query);
-            ps.setInt(1, id);
+	    try {
+	        String query = "UPDATE requests SET is_active = false WHERE id = ?";
+	        conn = ConnectionUtil.getConnection();
+	        ps = conn.prepareStatement(query);
+	        ps.setInt(1, requestId);
 
-            int rowsDeleted = ps.executeUpdate();
+	        int rowsAffected = ps.executeUpdate();
 
-            if (rowsDeleted > 0) {
-                System.out.println("Request with ID " + id + " has been deleted successfully.");
-            } else {
-                System.out.println("Request with ID " + id + " not found.");
-            }
+	        if (rowsAffected == 0) {
+	            System.out.println("No request found with id: " + requestId);
+	        } else {
+	            System.out.println("Request has been deleted successfully");
+	        }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Error while deleting request: " + e.getMessage());
-            throw new RuntimeException();
-        } finally {
-            in.fssa.knfunding.util.ConnectionUtil.close(conn, ps);
-        }
-    }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        System.out.println("Error while deleting request: " + e.getMessage());
+	        throw new RuntimeException();
+	    } finally {
+	        ConnectionUtil.close(conn, ps);
+	    }
+	}
+
 
     
     /**
@@ -122,37 +131,39 @@ public class RequestDAO {
      */
     
 
-    public Set<Request> findAll() {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        Set<Request> requestSet = new HashSet<>();
+	public List<Request> findAll() {
+	    List<Request> requestList = new ArrayList<>();
+	    Connection conn = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
 
-        try {
-            String query = "SELECT * FROM requests";
-            conn = ConnectionUtil.getConnection();
-            ps = conn.prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
+	    try {
+	        String query = "SELECT * FROM requests WHERE is_active = true";
+	        conn = ConnectionUtil.getConnection();
+	        ps = conn.prepareStatement(query);
+	        rs = ps.executeQuery();
 
-            while (rs.next()) {
-                Request request = new Request();
-                request.setId(rs.getInt("id"));
-                request.setTitle(rs.getString("title"));
-                request.setDescription(rs.getString("description"));
-                request.setCategoryId(rs.getInt("category_id"));
-                request.setAmount(rs.getInt("amount"));
-                requestSet.add(request);
-            }
+	        while (rs.next()) {
+	            Request request = new Request();
+	            request.setId(rs.getInt("id"));
+	            request.setTitle(rs.getString("title"));
+	            request.setDescription(rs.getString("description"));
+	            request.setCategoryId(rs.getInt("category_id"));
+	            request.setAmount(rs.getInt("amount"));
+	            request.setActive(true);
+	            requestList.add(request);
+	        }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Error while retrieving requests: " + e.getMessage());
-            throw new RuntimeException();
-        } finally {
-            ConnectionUtil.close(conn, ps);
-        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        System.out.println("Error while fetching requests: " + e.getMessage());
+	        throw new RuntimeException();
+	    } finally {
+	        ConnectionUtil.close(conn, ps, rs);
+	    }
 
-        return requestSet;
-    }
+	    return requestList;
+	}
 
 
     /**
@@ -162,100 +173,75 @@ public class RequestDAO {
      * @return A set of Request objects associated with the given category ID.
      * @throws RuntimeException If an error occurs while retrieving requests by category ID.
      */
-    public Set<Request> findByCategoryId(int categoryId) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Set<Request> requestSet = new HashSet<>();
+	public List<Request> findByCategoryId(int categoryId) {
+	    Connection conn = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+	    List<Request> requestSet = new ArrayList<>();
 
-        try {
-            conn = ConnectionUtil.getConnection();
-            String query = "SELECT * FROM requests WHERE category_id = ?";
-            ps = conn.prepareStatement(query);
-            ps.setInt(1, categoryId);
-            rs = ps.executeQuery();
+	    try {
+	        conn = ConnectionUtil.getConnection();
+	        String query = "SELECT * FROM requests WHERE category_id = ? AND is_active = true";
+	        ps = conn.prepareStatement(query);
+	        ps.setInt(1, categoryId);
+	        rs = ps.executeQuery();
 
-            while (rs.next()) {
-                Request request = new Request();
-                request.setId(rs.getInt("id"));
-                request.setTitle(rs.getString("title"));
-                request.setDescription(rs.getString("description"));
-                requestSet.add(request);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Error while retrieving requests by category ID", e);
-        } finally {
-            ConnectionUtil.close(conn, ps, rs);
-        }
+	        while (rs.next()) {
+	            Request request = new Request();
+	            request.setId(rs.getInt("id"));
+	            request.setTitle(rs.getString("title"));
+	            request.setDescription(rs.getString("description"));
+	            requestSet.add(request);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        throw new RuntimeException("Error while retrieving requests by category ID", e);
+	    } finally {
+	        ConnectionUtil.close(conn, ps, rs);
+	    }
 
-        return requestSet;
-    }
+	    return requestSet;
+	}
+
     
     /**
      * 
      * @param requestId
      * @return
      */
-    public Request findById(int requestId) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        Request request = null;
+	public Request findById(int requestId) {
+	    Connection conn = null;
+	    PreparedStatement ps = null;
+	    Request request = null;
 
-        try {
-            String query = "SELECT * FROM requests WHERE id = ?";
-            conn = ConnectionUtil.getConnection();
-            ps = conn.prepareStatement(query);
-            ps.setInt(1, requestId);
+	    try {
+	        String query = "SELECT * FROM requests WHERE id = ? AND is_active = true";
+	        conn = ConnectionUtil.getConnection();
+	        ps = conn.prepareStatement(query);
+	        ps.setInt(1, requestId);
 
-            ResultSet rs = ps.executeQuery();
+	        ResultSet rs = ps.executeQuery();
 
-            if (rs.next()) {
-                request = new Request();
-                request.setId(rs.getInt("id"));
-                request.setTitle(rs.getString("title"));
-                request.setDescription(rs.getString("description"));
-                request.setCategoryId(rs.getInt("category_id"));
-                request.setAmount(rs.getInt("amount"));
-            }
+	        if (rs.next()) {
+	            request = new Request();
+	            request.setId(rs.getInt("id"));
+	            request.setTitle(rs.getString("title"));
+	            request.setDescription(rs.getString("description"));
+	            request.setCategoryId(rs.getInt("category_id"));
+	            request.setAmount(rs.getInt("amount"));
+	        }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Error while retrieving request by ID: " + e.getMessage());
-            throw new RuntimeException();
-        } finally {
-            ConnectionUtil.close(conn, ps);
-        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        System.out.println("Error while retrieving request by ID: " + e.getMessage());
+	        throw new RuntimeException();
+	    } finally {
+	        ConnectionUtil.close(conn, ps);
+	    }
 
-        return request;
-    }
-    
-    public void retriveDelete(int id) {
-        Connection conn = null;
-        PreparedStatement ps = null;
+	    return request;
+	}
 
-        try {
-            String query = "DELETE FROM requests WHERE id=?";
-            conn = ConnectionUtil.getConnection();
-            ps = conn.prepareStatement(query);
-            ps.setInt(1, id);
-
-            int rowsDeleted = ps.executeUpdate();
-
-            if (rowsDeleted > 0) {
-                System.out.println("Request with ID " + id + " has been deleted successfully.");
-            } else {
-                System.out.println("Request with ID " + id + " not found.");
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Error while deleting request: " + e.getMessage());
-            throw new RuntimeException();
-        } finally {
-            in.fssa.knfunding.util.ConnectionUtil.close(conn, ps);
-        }
-    }
 
 
 

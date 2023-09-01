@@ -1,8 +1,8 @@
 package in.fssa.knfunding.dao;
 
 import java.sql.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import in.fssa.knfunding.model.User;
 import interfaces.UserInterface;
@@ -15,10 +15,10 @@ public class UserDAO implements UserInterface {
      * @return A set of active User objects.
      * @throws RuntimeException If an error occurs while fetching users.
      */
-    public Set<User> findAll() {
+    public List<User> findAll() {
         Connection conn = null;
         PreparedStatement ps = null;
-        Set<User> userArray = new HashSet<>();
+        List<User> userArray = new ArrayList();
         ResultSet rs = null;
 
         try {
@@ -33,6 +33,7 @@ public class UserDAO implements UserInterface {
                 user.setFullName(rs.getString("full_name")); 
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
+                user.setPhoneNumber(rs.getLong("phone_number"));
                 user.setActive(rs.getBoolean("is_active"));
                 userArray.add(user);
             }
