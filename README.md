@@ -226,39 +226,8 @@ graph TD;
   C --> |Invalid Category ID| E["Business Validation: Category ID does not exist"]
 ```
 
-### Feature 3: Request Details
 
-#### User story
-Users can view details of a specific donation request.
-
-#### Pre-requisites
-- [ ] Requests Table
-- [ ] Implement Request DAO (findAll Request Details)
-- [ ] Implement Request Service (findAll Request Details)
-
-#### Validation
-- [ ] Form validation
- - Request ID must be a positive integer.
-- [ ] Business validation
- - Check whether the Request ID exists in the database.
-
-#### Messages
-- [ ] Invalid Request ID: Request ID must be a positive integer.
-
-#### Flow
-```mermaid
-graph TD;
-  A["User: View Request Details"] --> B["Form Validation"]
-  B -- Valid --> C0["Business Validation"]
-  C0 --> C["Check Whether the Request ID exists in the Database"]
-  B -- Invalid --> C1["Validation Exception: Invalid Request ID"]
-  C -- Yes --> D["Request Service: Retrieve Request Details"]
-  D --> E["Response: Display Request Details"]
-  C -- No --> F["Validation Exception: Request not found for the given ID (Error Response)"]
-
-```
-
-### Feature 4: Create new Request
+### Feature 3: Create new Request
 
 #### User story
 User can create Request
@@ -306,7 +275,7 @@ graph TD;
 ```
 
 
-### Feature 5: Update Request details
+### Feature 4: Update Request details
 #### User story
 User can update their Request detail.
 #### Pre-requisites:
@@ -349,7 +318,7 @@ graph TD;
 
 ```
 
-### Feature 6: Delete Request
+### Feature 5: Delete Request
 #### User story
 User can Delete their Request.
 #### Pre-requisites:
