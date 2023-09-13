@@ -19,6 +19,7 @@ public class RequestDAO {
 	 */
 	 
 	
+	
 	public void create(Request newRequest) {
 	    Connection conn = null;
 	    PreparedStatement ps = null;
@@ -121,16 +122,12 @@ public class RequestDAO {
 	    } finally {
 	        ConnectionUtil.close(conn, ps);
 	    }
-	}
-
-
-    
+	}   
     /**
      * 
      * @return
      */
-    
-
+   
 	public List<Request> findAll() {
 	    List<Request> requestList = new ArrayList<>();
 	    Connection conn = null;

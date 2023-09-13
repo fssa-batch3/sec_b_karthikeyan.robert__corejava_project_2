@@ -26,6 +26,7 @@ public class ConnectionUtil {
 
 	}
 
+	
 	public static void close(Connection connection, PreparedStatement presta) {
 		try {
 			if (presta != null) {

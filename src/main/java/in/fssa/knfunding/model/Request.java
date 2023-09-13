@@ -47,12 +47,13 @@ public class Request  {
 		this.title = title;
 	}
 	
+	
 	public int getUserId() {
 		return getUserId();
 	}
 	public int setUserId(int userId) {
 		return userId;
-	}
+	} 
 
 	
 	

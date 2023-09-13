@@ -7,9 +7,13 @@ import in.fssa.knfunding.dao.RequestDAO;
 public class RequestService {
     private RequestDAO requestDAO;
 
+    
     public RequestService() {
         requestDAO = new RequestDAO();
     }
+    
+    
+    
 
     public List<Request> getAllRequests() {
         try {
@@ -20,6 +24,9 @@ public class RequestService {
         }
     }
 
+    
+    
+    
     public List<Request> getRequestsByCategoryId(int categoryId) {
         try {
             return requestDAO.findByCategoryId(categoryId);
