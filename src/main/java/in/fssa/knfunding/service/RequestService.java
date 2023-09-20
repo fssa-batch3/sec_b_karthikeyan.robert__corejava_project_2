@@ -1,6 +1,7 @@
 package in.fssa.knfunding.service;
 
 import java.util.List;
+
 import in.fssa.knfunding.model.Request;
 import in.fssa.knfunding.dao.RequestDAO;
 
@@ -11,7 +12,6 @@ public class RequestService {
     public RequestService() {
         requestDAO = new RequestDAO();
     }
-    
     
     
 
@@ -35,7 +35,10 @@ public class RequestService {
             throw new RuntimeException("Error while retrieving requests by category", e);
         }
     }
-
+/**
+ * 
+ * @param request
+ */
     public void createRequest(Request request) {
         validateRequest(request);
 
@@ -88,6 +91,17 @@ public class RequestService {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Error while retrieving request by ID", e);
+        }
+    }
+    
+    
+    public List<Request> getRequestsByUserId(int userId) {
+        try {
+            return requestDAO.findByUserId(userId); // Call the DAO method
+        } catch (Exception e) {
+            // Handle exceptions appropriately (e.g., log, throw custom exception)
+            e.printStackTrace();
+            throw new RuntimeException("Error while getting requests by User ID: " + e.getMessage());
         }
     }
 }

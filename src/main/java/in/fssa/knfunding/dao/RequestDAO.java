@@ -2,6 +2,7 @@ package in.fssa.knfunding.dao;
 
 import java.sql.Connection;
 
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,15 +24,18 @@ public class RequestDAO {
 	public void create(Request newRequest) {
 	    Connection conn = null;
 	    PreparedStatement ps = null;
+	    
 
 	    try {
-	        String query = "INSERT INTO requests (title, description, category_id, amount) VALUES (?, ?, ?, ?)";
+	        String query = "INSERT INTO requests (title, description, category_id, amount, img_url,user_id) VALUES (?, ?, ?, ?, ?, ?)";
 	        conn = ConnectionUtil.getConnection();
 	        ps = conn.prepareStatement(query);
 	        ps.setString(1, newRequest.getTitle());
 	        ps.setString(2, newRequest.getDescription());
 	        ps.setInt(3, newRequest.getCategoryId());
 	        ps.setInt(4, newRequest.getAmount());
+	        ps.setString(5, newRequest.getImg_url());
+	        ps.setInt(6, newRequest.getUser_id());
 	       
 	        ps.executeUpdate();
 
@@ -146,6 +150,7 @@ public class RequestDAO {
 	            request.setTitle(rs.getString("title"));
 	            request.setDescription(rs.getString("description"));
 	            request.setCategoryId(rs.getInt("category_id"));
+	            request.setImg_url(rs.getString("img_url"));
 	            request.setAmount(rs.getInt("amount"));
 	            request.setActive(true);
 	            requestList.add(request);
@@ -237,6 +242,44 @@ public class RequestDAO {
 	    }
 
 	    return request;
+	}
+	
+	
+	public List<Request> findByUserId(int userId) {
+	    Connection conn = null;
+	    PreparedStatement ps = null;
+	    List<Request> requests = new ArrayList<>();
+
+	    try {
+	        String query = "SELECT * FROM requests WHERE user_id = ? AND is_active = true";
+	        conn = ConnectionUtil.getConnection();
+	        ps = conn.prepareStatement(query);
+	        ps.setInt(1, userId);
+
+	        ResultSet rs = ps.executeQuery();
+
+	        while (rs.next()) {
+	            Request request = new Request();
+	            request.setId(rs.getInt("id"));
+	            request.setTitle(rs.getString("title"));
+	            request.setDescription(rs.getString("description"));
+	            request.setCategoryId(rs.getInt("category_id"));
+	            request.setImg_url(rs.getString("img_url"));
+	            request.setAmount(rs.getInt("amount"));
+	            // Add more fields as needed
+
+	            requests.add(request);
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        System.out.println("Error while retrieving requests by User ID: " + e.getMessage());
+	        throw new RuntimeException();
+	    } finally {
+	        ConnectionUtil.close(conn, ps);
+	    }
+
+	    return requests;
 	}
 
 

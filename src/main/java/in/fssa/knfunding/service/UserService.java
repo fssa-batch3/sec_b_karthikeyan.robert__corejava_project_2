@@ -23,11 +23,13 @@ public class UserService {
 		while (iterator.hasNext()) {
 			User user = iterator.next();
 			System.out.println(user);
-			
+
 		}
 		return userList;
 	}
+
 	/**
+	 * 
 	 * 
 	 * @param newUser
 	 * @throws Exception
@@ -38,7 +40,7 @@ public class UserService {
 		UserValidator.Validate(newUser);
 		userDao.create(newUser);
 	}
-	
+
 	/**
 	 * 
 	 * @param id
@@ -48,6 +50,7 @@ public class UserService {
 		UserDAO userDao = new UserDAO();
 		userDao.delete(id);
 	}
+
 	/**
 	 * 
 	 * @param newId
@@ -59,32 +62,31 @@ public class UserService {
 		return userDao.findById(newId);
 
 	}
-	
+
 	/**
 	 * 
 	 * @param Email
 	 * @return
 	 */
-	public User findByEmail(String Email) {
+	public User findByEmail(String email, String password) {
 		UserDAO userDao = new UserDAO();
-		return userDao.findByEmail(Email);
+		return userDao.userLogin(email, password);
 	}
+
 	/**
 	 * 
 	 * @param user
 	 * @throws ValidationException
 	 */
-	
-	
+
 	public void update(User user) throws ValidationException {
-	    UserDAO userDAO = new UserDAO();
-	    
-	    int userId = user.getId(); 
-	    
-	    UserValidator.ValidateUpdate(user, userId);
-	    
-	    userDAO.update(userId, user);
+		UserDAO userDAO = new UserDAO();
+
+		int userId = user.getId();
+
+		UserValidator.ValidateUpdate(user, userId);
+
+		userDAO.update(userId, user);
 	}
 
-	
 }

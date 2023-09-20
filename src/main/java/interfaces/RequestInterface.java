@@ -2,11 +2,14 @@ package interfaces;
 
 import in.fssa.knfunding.model.Request;
 
+
 import java.util.List;
 
 public interface RequestInterface {
 
     List<Request> findAll();
+    
+    List<Request> findByUserId();
 
     Request findById(int id);
 
@@ -15,6 +18,7 @@ public interface RequestInterface {
     void update(int id, Request updatedRequest);
 
     void delete(int id);
+    
 
     
 

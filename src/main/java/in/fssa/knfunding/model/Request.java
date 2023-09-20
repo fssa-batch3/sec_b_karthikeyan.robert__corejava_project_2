@@ -1,5 +1,6 @@
 package in.fssa.knfunding.model;
 
+
 public class Request  {
     private int id;
     private String description;
@@ -7,8 +8,26 @@ public class Request  {
     private int amount;
     private String title;
     private boolean isActive;
+    private int user_id;
     
-    
+    private String img_url;
+
+	public int getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(int user_id) {
+		this.user_id = user_id;
+	}
+	public String getImg_url() {
+		return img_url;
+	}
+	public void setImg_url(String img_url) {
+		this.img_url = img_url;
+	}
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+
     public boolean isActive() {
 		return isActive;
 	}
@@ -47,15 +66,7 @@ public class Request  {
 		this.title = title;
 	}
 	
-	
-	public int getUserId() {
-		return getUserId();
-	}
-	public int setUserId(int userId) {
-		return userId;
-	} 
 
-	
 	
 	
     
