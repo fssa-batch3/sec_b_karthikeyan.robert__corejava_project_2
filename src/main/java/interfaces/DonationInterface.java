@@ -13,6 +13,8 @@ public  interface DonationInterface {
 	   List <Donation> findByRequestId(int id);
 
 	    void create(Donation newDonation);
+	    
+	    
 
 	    
 

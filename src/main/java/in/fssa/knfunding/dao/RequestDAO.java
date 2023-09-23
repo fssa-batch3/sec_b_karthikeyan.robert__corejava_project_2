@@ -21,6 +21,7 @@ public class RequestDAO {
 	 
 	
 	
+	
 	public void create(Request newRequest) {
 	    Connection conn = null;
 	    PreparedStatement ps = null;
@@ -132,40 +133,78 @@ public class RequestDAO {
      * @return
      */
    
+//	public List<Request> findAll() {
+//	    List<Request> requestList = new ArrayList<>();
+//	    Connection conn = null;
+//	    PreparedStatement ps = null;
+//	    ResultSet rs = null;
+//
+//	    try {
+//	        String query = "SELECT * FROM requests WHERE is_active = true";
+//	        conn = ConnectionUtil.getConnection();
+//	        ps = conn.prepareStatement(query);
+//	        rs = ps.executeQuery();
+//
+//	        while (rs.next()) {
+//	            Request request = new Request();
+//	            request.setId(rs.getInt("id"));
+//	            request.setTitle(rs.getString("title"));
+//	            request.setDescription(rs.getString("description"));
+//	            request.setCategoryId(rs.getInt("category_id"));
+//	            request.setImg_url(rs.getString("img_url"));
+//	            request.setAmount(rs.getInt("amount"));
+//	            request.setActive(true);
+//	            requestList.add(request);
+//	        }
+//
+//	    } catch (SQLException e) {
+//	        e.printStackTrace();
+//	        System.out.println("Error while fetching requests: " + e.getMessage());
+//	        throw new RuntimeException();
+//	    } finally {
+//	        ConnectionUtil.close(conn, ps, rs);
+//	    }
+//
+//	    return requestList;
+//	}
+	
 	public List<Request> findAll() {
-	    List<Request> requestList = new ArrayList<>();
-	    Connection conn = null;
-	    PreparedStatement ps = null;
-	    ResultSet rs = null;
+        List<Request> requestList = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
-	    try {
-	        String query = "SELECT * FROM requests WHERE is_active = true";
-	        conn = ConnectionUtil.getConnection();
-	        ps = conn.prepareStatement(query);
-	        rs = ps.executeQuery();
+        try {
+            String query = "SELECT r.id, r.title, r.description, r.category_id, r.img_url, r.amount, c.name " +
+                           "FROM requests r " +
+                           "INNER JOIN category c ON r.category_id = c.id " +
+                           "WHERE r.is_active = true";
+            conn = ConnectionUtil.getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
 
-	        while (rs.next()) {
-	            Request request = new Request();
-	            request.setId(rs.getInt("id"));
-	            request.setTitle(rs.getString("title"));
-	            request.setDescription(rs.getString("description"));
-	            request.setCategoryId(rs.getInt("category_id"));
-	            request.setImg_url(rs.getString("img_url"));
-	            request.setAmount(rs.getInt("amount"));
-	            request.setActive(true);
-	            requestList.add(request);
-	        }
+            while (rs.next()) {
+                Request request = new Request();
+                request.setId(rs.getInt("id"));
+                request.setTitle(rs.getString("title"));
+                request.setDescription(rs.getString("description"));
+                request.setCategoryId(rs.getInt("category_id"));
+                request.setCategory_name(rs.getString("name")); 
+                request.setImg_url(rs.getString("img_url"));
+                request.setAmount(rs.getInt("amount"));
+                request.setActive(true);
+                requestList.add(request);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error while fetching requests with categories: " + e.getMessage());
+            throw new RuntimeException();
+        } finally {
+            ConnectionUtil.close(conn, ps, rs);
+        }
 
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        System.out.println("Error while fetching requests: " + e.getMessage());
-	        throw new RuntimeException();
-	    } finally {
-	        ConnectionUtil.close(conn, ps, rs);
-	    }
-
-	    return requestList;
-	}
+        return requestList;
+    }
 
 
     /**

@@ -12,9 +12,16 @@ public class Donation {
 	private int donation_amount;
 	private long mobile_no;
 	LocalDate donation_date = LocalDate.now();
+	 private String requestTitle;
 	
 	
 	
+	public String getRequestTitle() {
+		return requestTitle;
+	}
+	public void setRequestTitle(String requestTitle) {
+		this.requestTitle = requestTitle;
+	}
 	public int getDonation_id() {
 		return donation_id;
 	}
@@ -60,8 +67,8 @@ public class Donation {
 	public LocalDate getDonation_date() {
 		return donation_date;
 	}
-	public void setDonation_date(LocalDate donation_date) {
-		this.donation_date = donation_date;
+	public void setDonation_date(LocalDate i) {
+		this.donation_date = i;
 	}
 	
 	

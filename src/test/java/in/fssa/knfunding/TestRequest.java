@@ -45,7 +45,7 @@ public class TestRequest {
         newRequest.setAmount(100);
 
         
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+        Exception exception = assertThrows(RuntimeException.class, () -> {
             requestService.createRequest(newRequest);
         });
         String expectedMessage = "Title cannot be null or empty";

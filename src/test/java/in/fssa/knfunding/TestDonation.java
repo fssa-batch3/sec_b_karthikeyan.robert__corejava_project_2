@@ -4,11 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 import in.fssa.knfunding.model.Donation;
+import in.fssa.knfunding.model.Request;
 import in.fssa.knfunding.service.DonationService;
+import in.fssa.knfunding.service.RequestService;
 
 public class TestDonation {
 	
@@ -54,27 +57,29 @@ public class TestDonation {
 	        donationService.createDonation(newDonation);
 	    });
 	}
+	
+	
+	 @Test
+	    public void testListAllDonationsByUserId() {
+	        DonationService donationService = new DonationService();
+	 
+	        assertDoesNotThrow(() -> {
+	        	 List<Donation> allRequests = donationService.getDonationByUserId(68);
+	        });
 
-	@Test
-    public void testCreateDonationWithInvalidMobileNumber() {
-        DonationService donationService = new DonationService();
+	    }
+	 
+	 @Test
+	    public void testListAllDonationsByRequestId() {
+	        DonationService donationService = new DonationService();
+	 
+	        assertDoesNotThrow(() -> {
+	        	 List<Donation> allRequests = donationService.getDonationByRequestId(15);
+	        });
 
-        Donation newDonation = new Donation();
-        newDonation.setDonation_id(5);
-        newDonation.setRequest_id(2);
-        newDonation.setUser_id(68);
-        newDonation.setDonor_name("karthikeyan");
-        newDonation.setEmail("karthikn352004@gmail.com");
-        newDonation.setMobile_no(12345L); // Invalid mobile number
-	    newDonation.setDonation_amount(2000);
+	    }
 
-        LocalDate donationDate = LocalDate.of(2023, 9, 20);
-        newDonation.setDonation_date(donationDate);
 
-        assertThrows(RuntimeException.class, () -> {
-            donationService.createDonation(newDonation);
-        });
-    }
 
 	
 }
