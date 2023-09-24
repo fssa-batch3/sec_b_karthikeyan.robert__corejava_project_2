@@ -290,7 +290,10 @@ public class RequestDAO {
 	    List<Request> requests = new ArrayList<>();
 
 	    try {
-	        String query = "SELECT * FROM requests WHERE user_id = ? AND is_active = true";
+	        String query = "SELECT r.id, r.title, r.description, r.category_id, r.img_url, r.amount, c.name " +
+                    "FROM requests r " +
+                    "INNER JOIN category c ON r.category_id = c.id " +
+                    "WHERE r.is_active = true AND r.user_id = ?";
 	        conn = ConnectionUtil.getConnection();
 	        ps = conn.prepareStatement(query);
 	        ps.setInt(1, userId);
@@ -303,6 +306,7 @@ public class RequestDAO {
 	            request.setTitle(rs.getString("title"));
 	            request.setDescription(rs.getString("description"));
 	            request.setCategoryId(rs.getInt("category_id"));
+	            request.setCategory_name(rs.getString("name"));
 	            request.setImg_url(rs.getString("img_url"));
 	            request.setAmount(rs.getInt("amount"));
 	            // Add more fields as needed
