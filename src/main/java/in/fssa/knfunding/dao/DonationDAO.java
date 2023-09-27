@@ -103,7 +103,11 @@ public class DonationDAO {
 	    return donations;
 	}
 	
-	
+	/**
+	 * 
+	 * @param requestId
+	 * @return
+	 */
 	
 	public List<Donation> findDonationsByRequestId(int requestId) {
 	    Connection conn = null;

@@ -6,7 +6,7 @@ import in.fssa.knfunding.model.Donation;
 
 public  interface DonationInterface {
 	
-	  List<Donation> findAllDonors();
+	  List<Donation> findAllDonorsByRequestId();
 	    
 	    List<Donation> findByUserId();
 
